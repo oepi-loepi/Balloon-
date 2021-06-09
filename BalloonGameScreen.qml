@@ -9,7 +9,7 @@ import "GameLogic.js" as GameLogic
 Screen {
     id: gameScreen
     screenTitle: "Balloon Game"
-    property int dartcounter : 20
+    property int dartcounter : 12
 	property bool activeMe : false
 	property int score: 0
 	property string scoreText : ""
@@ -43,7 +43,7 @@ Screen {
         Image {
             id: background
             anchors.fill: parent
-            source: "file:///qmf/qml/apps/balloonGame/drawables/sky.jpg"
+            source: "file:///qmf/qml/apps/toonGames/drawables/sky.jpg"
             fillMode: Image.PreserveAspectCrop
         }
 
@@ -143,9 +143,13 @@ Screen {
         function removeBalloon(balloon) {
             GameLogic.balloons.splice(GameLogic.balloons.indexOf(balloon), 1);
         }
+
+        function removemelon(melon) {
+            GameLogic.melons.splice(GameLogic.melons.indexOf(melon), 1);
+        }
+
 		
-		function newArrow() {
-			console.log("hahahahaha")
+	function newArrow() {
             coolDown.start();
         }
 
@@ -154,7 +158,7 @@ Screen {
         }
 
         Timer {
-            interval:  isNxt? 2000 :8000
+            interval:  isNxt? 4000 :12000
             repeat: true
             running: true
             onTriggered: {
@@ -168,9 +172,24 @@ Screen {
             }
         }
 
+        Timer {
+            interval:  isNxt? 9000 :17000
+            repeat: true
+            running: true
+            onTriggered: {
+				if ( activeMe){
+					var component = Qt.createComponent("Melon.qml");
+					var melon = component.createObject(game);
+					melon.x = randomNumber(200, game.width);
+					melon.y = game.height;
+					GameLogic.melons.push(melon);
+				}
+            }
+        }
+
         Image {
             id: dart;
-            source: "file:///qmf/qml/apps/balloonGame/drawables/Dart.png"
+            source: "file:///qmf/qml/apps/toonGames/drawables/Dart.png"
             y:  isNxt? 180 :144
         }
 
@@ -190,7 +209,7 @@ Screen {
 					menuBox.opacity = 1;
                     game.opacity = 0;
 					gameScreen.scoreText = "Your score: " + gameScreen.score
-					dartcounter = 20;
+					dartcounter = 12;
 					toolBar.paintDart();
 					gameScreen.score = 0;
 				}
@@ -200,7 +219,7 @@ Screen {
 		
 		
 
-        Timer { repeat: true; interval: 100; running: true; onTriggered: GameLogic.collisionDetect() }
+        Timer { repeat: true; interval: 60; running: true; onTriggered: GameLogic.collisionDetect() }
 
         Rectangle {
             id: scoreBar

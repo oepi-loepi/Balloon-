@@ -2,17 +2,19 @@
 
 import QtQuick 2.1
 
+
 Item {
-    id: balloon
+    id: melon
 
     property bool destroyed: false
-    property int balloonsize: randomNumber(3,7)
-    width: balloonsize * 24
-    height: balloonsize * 24
+
+        width: 240
+        height: 240
+
 
     Item {
         id: sprite
-        property int frame: 4
+        property int frame:1
 
         anchors.centerIn: parent
 
@@ -48,11 +50,10 @@ Item {
 
         Image {
             id: spriteImage
-            source: "file:///qmf/qml/apps/toonGames/drawables/BalloonSpriteSheet.png"
+            source: "file:///qmf/qml/apps/toonGames/drawables/WatermelonSpritesheet.png"
             y: 0
-            x:-120 * balloonsize/5*sprite.frame
-            width: 960 *  balloonsize/5
-            height:120 * balloonsize/5        }
+            x:-120-(240*sprite.frame)
+        }
     }
 
     Timer {
@@ -60,19 +61,18 @@ Item {
         repeat: true;
         interval: 80;
         onTriggered: {
-            if (sprite.frame == 7) {
-                gameScreen.score += 20;
+            if (sprite.frame == 9) {
+                gameScreen.score += 50;
                 animation.stop()
-                balloon.destroy();
+                melon.destroy();
             }
-
             sprite.frame++;
         }
     }
 
     function explode() {
         if (!destroyed) {
-            sprite.frame = 5;
+            sprite.frame = 2;
             animation.start();
         }
         destroyed = true;
@@ -82,7 +82,7 @@ Item {
        return Math.floor(Math.random() * (to - from + 1) + from);
     }
 
-    property int speed: randomNumber(1, 4)
+    property int speed: randomNumber(3, 8)
 
     Timer {
         interval: 50
@@ -90,11 +90,11 @@ Item {
         repeat: true
 
         onTriggered: {
-            balloon.y -= balloon.speed;
+            melon.y -= melon.speed;
 
-            if (balloon.y + balloon.height < 0) {
-                game.removeBalloon(balloon);
-                balloon.destroy();
+            if (melon.y + melon.height < 0) {
+                game.removeMelon(melon);
+                melon.destroy();
             }
         }
     }

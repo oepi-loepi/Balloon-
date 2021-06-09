@@ -14,7 +14,7 @@ Item {
     Component {
         id: dartComponent
         Image {
-            source: 'file:///qmf/qml/apps/balloonGame/drawables/Dart.png'
+            source: 'file:///qmf/qml/apps/toonGames/drawables/Dart.png'
             width: 46
             x: 0
 
@@ -36,7 +36,7 @@ Item {
 	
 	function paintDart() {
 		console.log("balloonGame dart created")
-		for (var i = 0; i < 20; i++) {
+		for (var i = 0; i < 12; i++) {
             var item = dartComponent.createObject(toolBarItem);
             item.y=-0;
             item.x=(item.x + 28) *i;
